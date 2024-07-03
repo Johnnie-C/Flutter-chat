@@ -30,6 +30,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  networker:
+    path: ./modules/libs/networker
 
 
   # The following adds the Cupertino Icons font to your application.

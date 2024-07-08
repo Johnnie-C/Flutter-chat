@@ -32,6 +32,15 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+
+# 3rd party dependencies
+  web_socket_channel: ^3.0.0
+
+# feature packages
+  chatting:
+    path: ./modules/features/chatting
+
+# lib packages
   networker:
     path: ./modules/libs/networker
   common:

@@ -45,5 +45,11 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Fluttery needs to access your photos.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Fluttery needs to access your your camera to take photos.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Fluttery needs to access your your camera to take photos.</string>
 </dict>
 </plist>

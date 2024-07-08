@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:fluttery/routes/routes.dart';
+import 'package:fluttery/themes/motorfy_themes.dart';
 
 class App extends StatefulWidget {
   const App({super.key, this.navigatorKey});
@@ -32,10 +33,6 @@ class _AppState extends State<App> {
         .toList(growable: false);
   }
 
-  ThemeData get theme => ThemeData(
-    useMaterial3: true,
-  );
-
   @override
   Widget build(BuildContext context) => GestureDetector(
     behavior: HitTestBehavior.opaque,
@@ -49,7 +46,7 @@ class _AppState extends State<App> {
       ],
       supportedLocales: supportedLocales,
       debugShowCheckedModeBanner: true,
-      theme: theme,
+      theme: MotofyTheme.theme(),
       initialRoute: Routes.home,
       onGenerateRoute: RouteManager.generateRoutes,
       navigatorObservers: const [],

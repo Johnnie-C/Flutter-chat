@@ -24,7 +24,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: context.colors.primary,
+      backgroundColor: context.colorScheme.primary,
       body: _buildTabPage(context),
       bottomNavigationBar: _buildBottomTabBar(context),
     );
@@ -36,10 +36,10 @@ class _HomePageState extends State<HomePage> {
         labelTextStyle: MaterialStateProperty.resolveWith<TextStyle?>(
               (Set<MaterialState> states) => states.contains(MaterialState.selected)
               ? context.textTheme.bodyMedium?.copyWith(
-                  color: context.colors.primary,
+                  color: context.colorScheme.primary,
                 )
               : context.textTheme.bodyMedium?.copyWith(
-                  color: context.colors.secondary
+                  color: context.colorScheme.secondary
                 ),
         ),
       ),
@@ -48,12 +48,12 @@ class _HomePageState extends State<HomePage> {
           NavigationDestination(
             icon: Icon(
               Icons.hive_outlined,
-              color: context.colors.secondary,
+              color: context.colorScheme.secondary,
               size: 24,
             ),
             selectedIcon:  Icon(
               Icons.hive_rounded,
-              color: context.colors.primary,
+              color: context.colorScheme.primary,
               size: 24,
             ),
             label: "features",
@@ -61,12 +61,12 @@ class _HomePageState extends State<HomePage> {
           NavigationDestination(
             icon:  Icon(
               Icons.now_widgets_outlined,
-              color: context.colors.secondary,
+              color: context.colorScheme.secondary,
               size: 24,
             ),
             selectedIcon: Icon(
               Icons.now_widgets_rounded,
-              color: context.colors.primary,
+              color: context.colorScheme.primary,
               size: 24,
             ),
             label: "Widget Demos",
@@ -79,8 +79,8 @@ class _HomePageState extends State<HomePage> {
         },
         selectedIndex: currentPageIndex,
         indicatorColor: Colors.transparent,
-        backgroundColor: context.colors.background,
-        surfaceTintColor: context.colors.onSurface,
+        backgroundColor: context.colorScheme.surfaceContainer,
+        surfaceTintColor: context.colorScheme.onSurface,
       ),
     );
   }

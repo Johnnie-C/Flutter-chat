@@ -13,10 +13,10 @@
   },
   {
     "author": {
-      "firstName": "Janice",
-      "id": "e52552f4-835d-4dbe-ba77-b076e659774d",
+      "firstName": "John",
+      "id": "4c2307ba-3d40-442f-b1ff-b271f63904ca",
       "imageUrl": "https://i.pravatar.cc/300?u=e52552f4-835d-4dbe-ba77-b076e659774d",
-      "lastName": "King"
+      "lastName": "Doe"
     },
     "createdAt": 1655648403000,
     "height": 1280,
@@ -30,10 +30,10 @@
   },
   {
     "author": {
-      "firstName": "Janice",
-      "id": "e52552f4-835d-4dbe-ba77-b076e659774d",
+      "firstName": "John",
+      "id": "4c2307ba-3d40-442f-b1ff-b271f63904ca",
       "imageUrl": "https://i.pravatar.cc/300?u=e52552f4-835d-4dbe-ba77-b076e659774d",
-      "lastName": "King"
+      "lastName": "Doe"
     },
     "createdAt": 1655648402000,
     "id": "4e048753-2d60-4144-bc28-9967050aaf12",
@@ -72,6 +72,7 @@
     "author": {
       "firstName": "John",
       "id": "4c2307ba-3d40-442f-b1ff-b271f63904ca",
+      "imageUrl": "https://i.pravatar.cc/300?u=e52552f4-835d-4dbe-ba77-b076e659774d",
       "lastName": "Doe"
     },
     "createdAt": 1655624464000,
@@ -94,10 +95,10 @@
   },
   {
     "author": {
-      "firstName": "Janice",
-      "id": "e52552f4-835d-4dbe-ba77-b076e659774d",
+      "firstName": "John",
+      "id": "4c2307ba-3d40-442f-b1ff-b271f63904ca",
       "imageUrl": "https://i.pravatar.cc/300?u=e52552f4-835d-4dbe-ba77-b076e659774d",
-      "lastName": "King"
+      "lastName": "Doe"
     },
     "createdAt": 1655624462000,
     "id": "22212d42-1252-4641-9786-d6f83b2ce4a8",
@@ -107,10 +108,10 @@
   },
   {
     "author": {
-      "firstName": "Janice",
-      "id": "e52552f4-835d-4dbe-ba77-b076e659774d",
+      "firstName": "John",
+      "id": "4c2307ba-3d40-442f-b1ff-b271f63904ca",
       "imageUrl": "https://i.pravatar.cc/300?u=e52552f4-835d-4dbe-ba77-b076e659774d",
-      "lastName": "King"
+      "lastName": "Doe"
     },
     "createdAt": 1655624461000,
     "id": "afc2269a-374b-4382-8864-b3b60d1e8cd7",
@@ -122,6 +123,7 @@
     "author": {
       "firstName": "John",
       "id": "4c2307ba-3d40-442f-b1ff-b271f63904ca",
+      "imageUrl": "https://i.pravatar.cc/300?u=e52552f4-835d-4dbe-ba77-b076e659774d",
       "lastName": "Doe"
     },
     "createdAt": 1655624460000,

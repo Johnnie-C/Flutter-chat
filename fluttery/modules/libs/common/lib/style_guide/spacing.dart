@@ -24,6 +24,11 @@ extension Inset on EdgeInsets {
     bottom: 8.0,
   );
 
+  static const xSmallVertical = EdgeInsets.only(
+    top: 4.0,
+    bottom: 4.0,
+  );
+
 }
 
 extension Spacing on SizedBox {

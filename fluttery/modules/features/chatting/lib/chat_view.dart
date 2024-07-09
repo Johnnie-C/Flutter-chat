@@ -1,11 +1,9 @@
 library chatting;
 
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:http/http.dart' as http;
@@ -17,9 +15,31 @@ import 'package:uuid/uuid.dart';
 
 class ChatView extends StatefulWidget {
 
-  final Function(String) onSendTextMessage;
+  final List<types.Message> messages;
+  final types.User currentUser;
 
-  const ChatView({super.key, required this.onSendTextMessage});
+  final Function(types.Message message) onSendMessage;
+
+  final ChatTheme theme;
+  final Widget Function(
+    Widget child, {
+      required types.Message message,
+      required bool nextMessageInGroup,
+    }
+  )? bubbleBuilder;
+  final Widget Function(types.User)? nameBuilder;
+  final InputOptions inputOptions;
+
+  const ChatView({
+    super.key,
+    required this.messages,
+    required this.currentUser,
+    required this.onSendMessage,
+    this.theme = const DefaultChatTheme(),
+    this.bubbleBuilder,
+    this.nameBuilder,
+    required this.inputOptions,
+  });
 
   @override
   State<ChatView> createState() => _ChatViewState();
@@ -27,34 +47,27 @@ class ChatView extends StatefulWidget {
 }
 
 class _ChatViewState extends State<ChatView> {
-  List<types.Message> _messages = [];
-  final _user = const types.User(
-    id: '82091008-a484-4a89-ae75-a22bf8d6f3ac',
-  );
 
   @override
   void initState() {
     super.initState();
-    _loadMessages();
   }
 
   @override
   Widget build(BuildContext context) => Chat(
-    messages: _messages,
+    theme: widget.theme,
+    bubbleBuilder: widget.bubbleBuilder,
+    nameBuilder: widget.nameBuilder,
+    inputOptions: widget.inputOptions,
+    messages: widget.messages,
     onAttachmentPressed: _handleAttachmentPressed,
     onMessageTap: _handleMessageTap,
     onPreviewDataFetched: _handlePreviewDataFetched,
     onSendPressed: _handleSendPressed,
     showUserAvatars: true,
     showUserNames: true,
-    user: _user,
+    user: widget.currentUser,
   );
-
-  void _addMessage(types.Message message) {
-    setState(() {
-      _messages.insert(0, message);
-    });
-  }
 
   void _handleAttachmentPressed() {
     showModalBottomSheet<void>(
@@ -106,7 +119,7 @@ class _ChatViewState extends State<ChatView> {
 
     if (result != null && result.files.single.path != null) {
       final message = types.FileMessage(
-        author: _user,
+        author: widget.currentUser,
         createdAt: DateTime.now().millisecondsSinceEpoch,
         id: const Uuid().v4(),
         mimeType: lookupMimeType(result.files.single.path!),
@@ -115,7 +128,7 @@ class _ChatViewState extends State<ChatView> {
         uri: result.files.single.path!,
       );
 
-      _addMessage(message);
+      widget.onSendMessage(message);
     }
   }
 
@@ -131,7 +144,7 @@ class _ChatViewState extends State<ChatView> {
       final image = await decodeImageFromList(bytes);
 
       final message = types.ImageMessage(
-        author: _user,
+        author: widget.currentUser,
         createdAt: DateTime.now().millisecondsSinceEpoch,
         height: image.height.toDouble(),
         id: const Uuid().v4(),
@@ -141,7 +154,7 @@ class _ChatViewState extends State<ChatView> {
         width: image.width.toDouble(),
       );
 
-      _addMessage(message);
+      widget.onSendMessage(message);
     }
   }
 
@@ -152,16 +165,17 @@ class _ChatViewState extends State<ChatView> {
       if (message.uri.startsWith('http')) {
         try {
           final index =
-          _messages.indexWhere((element) => element.id == message.id);
+          widget.messages.indexWhere((element) => element.id == message.id);
           final updatedMessage =
-          (_messages[index] as types.FileMessage).copyWith(
+          (widget.messages[index] as types.FileMessage).copyWith(
             isLoading: true,
           );
 
           setState(() {
-            _messages[index] = updatedMessage;
+            widget.messages[index] = updatedMessage;
           });
 
+          // TODO: check cache
           final client = http.Client();
           final request = await client.get(Uri.parse(message.uri));
           final bytes = request.bodyBytes;
@@ -174,14 +188,14 @@ class _ChatViewState extends State<ChatView> {
           }
         } finally {
           final index =
-          _messages.indexWhere((element) => element.id == message.id);
+          widget.messages.indexWhere((element) => element.id == message.id);
           final updatedMessage =
-          (_messages[index] as types.FileMessage).copyWith(
+          (widget.messages[index] as types.FileMessage).copyWith(
             isLoading: null,
           );
 
           setState(() {
-            _messages[index] = updatedMessage;
+            widget.messages[index] = updatedMessage;
           });
         }
       }
@@ -192,39 +206,27 @@ class _ChatViewState extends State<ChatView> {
 
   void _handlePreviewDataFetched(
       types.TextMessage message,
-      types.PreviewData previewData,
-      ) {
-    final index = _messages.indexWhere((element) => element.id == message.id);
-    final updatedMessage = (_messages[index] as types.TextMessage).copyWith(
+      types.PreviewData previewData
+  ) {
+    final index = widget.messages.indexWhere((element) => element.id == message.id);
+    final updatedMessage = (widget.messages[index] as types.TextMessage).copyWith(
       previewData: previewData,
     );
 
     setState(() {
-      _messages[index] = updatedMessage;
+      widget.messages[index] = updatedMessage;
     });
   }
 
   void _handleSendPressed(types.PartialText message) {
     final textMessage = types.TextMessage(
-      author: _user,
+      author: widget.currentUser,
       createdAt: DateTime.now().millisecondsSinceEpoch,
       id: const Uuid().v4(),
       text: message.text,
     );
 
-    _addMessage(textMessage);
-    widget.onSendTextMessage(textMessage.text);
-  }
-
-  void _loadMessages() async {
-    final response = await rootBundle.loadString('packages/chatting/assets/mock_data/mock_messages.json');
-    final messages = (jsonDecode(response) as List)
-        .map((e) => types.Message.fromJson(e as Map<String, dynamic>))
-        .toList();
-
-    setState(() {
-      _messages = messages;
-    });
+    widget.onSendMessage(textMessage);
   }
 
 }
